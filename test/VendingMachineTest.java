@@ -127,4 +127,17 @@ public class VendingMachineTest {
 
 		assertEquals(0, vendingMachine.getCurrentAmount(), 0);
 	}
+
+	@Test
+	public void whenAProductIsSelectedThatCostsLessThanCurrentAmountTheDifferenceGoesToCoinReturn() {
+		vendingMachine.insertCoin(Coin.QUARTER);
+		vendingMachine.insertCoin(Coin.QUARTER);
+		vendingMachine.insertCoin(Coin.QUARTER);
+		vendingMachine.insertCoin(Coin.QUARTER);
+		vendingMachine.insertCoin(Coin.QUARTER);
+
+		vendingMachine.buy("cola");
+
+		assertEquals(0.25, vendingMachine.getCoinReturn(), 0);
+	}
 }
