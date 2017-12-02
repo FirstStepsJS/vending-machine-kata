@@ -1,9 +1,11 @@
 
 public class VendingMachine {
 	private double currentAmount;
+	private double coinReturn;
 
 	public VendingMachine() {
 		currentAmount = 0;
+		coinReturn = 0;
 	}
 
 	public String calculateDisplay() {
@@ -15,6 +17,14 @@ public class VendingMachine {
 	}
 
 	public void insertCoin(Coin coin) {
+		if (coin.equals(Coin.PENNY)) {
+			coinReturn = coin.getAmount();
+		} else {
 		currentAmount += coin.getAmount();
+		}
+	}
+
+	public String calculateCoinReturn() {
+		return String.format("%.2f", coinReturn);
 	}
 }

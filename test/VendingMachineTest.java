@@ -29,4 +29,11 @@ public class VendingMachineTest {
 		vendingMachine.insertCoin(Coin.QUARTER);
 		assertEquals("0.40", vendingMachine.calculateDisplay());
 	}
+
+	@Test
+	public void whenAnInvalidCoinIsInsertedItIsPlacedInTheCoinReturn() {
+		vendingMachine.insertCoin(Coin.PENNY);
+		assertEquals("INSERT COIN", vendingMachine.calculateDisplay());
+		assertEquals("0.01", vendingMachine.calculateCoinReturn());
+	}
 }
