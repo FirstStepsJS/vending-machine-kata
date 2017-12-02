@@ -67,4 +67,14 @@ public class VendingMachineTest {
 
 		assertEquals("1.00", vendingMachine.calculateDisplay());
 	}
+
+	@Test
+	public void whenChipsIsSelectedAndNotEnoughMoneyIsInsertedTheMachineDisplaysFiftyCents() {
+		vendingMachine.insertCoin(Coin.QUARTER);
+		Product selectedProduct = new Product("chips", 0.50);
+
+		vendingMachine.buy(selectedProduct);
+
+		assertEquals("0.50", vendingMachine.calculateDisplay());
+	}
 }
