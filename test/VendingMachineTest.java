@@ -107,4 +107,12 @@ public class VendingMachineTest {
 
 		assertEquals("0.50", vendingMachine.calculateDisplay());
 	}
+
+	@Test
+	public void whenTheDisplayIsCheckedAgainAfterPriceOfProductWasDisplayedAndThereIsNoMoneyInsertedItDisplaysInsertCoin() {
+		vendingMachine.buy("candy");
+		vendingMachine.calculateDisplay();
+
+		assertEquals("INSERT COIN", vendingMachine.calculateDisplay());
+	}
 }

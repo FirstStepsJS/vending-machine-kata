@@ -63,6 +63,8 @@ public class VendingMachine {
 		} else {
 			if (currentAmount > 0) {
 				setCurrentDisplay(Display.CURRENT_AMOUNT);
+			} else {
+				setCurrentDisplay(Display.INSERT_COIN);
 			}
 			return String.format("%.2f", getSelectedItemPrice());
 		}
