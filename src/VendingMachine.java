@@ -3,14 +3,14 @@ import java.util.HashMap;
 public class VendingMachine {
 	private double currentAmount;
 	private double coinReturn;
-	private Display currentDisplay;
+	private Display display;
 	private double selectedItemPrice;
 	HashMap<String, Product> inventory;
 
 	public VendingMachine() {
 		currentAmount = 0;
 		coinReturn = 0;
-		currentDisplay = Display.INSERT_COIN;
+		display = Display.INSERT_COIN;
 		selectedItemPrice = 0;
 		inventory = new HashMap<>();
 		inventory.put("cola", new Product("cola", 1.00));
@@ -18,12 +18,12 @@ public class VendingMachine {
 		inventory.put("candy", new Product("candy", .65));
 	}
 
-	public Display getCurrentDisplay() {
-		return currentDisplay;
+	public Display getDisplay() {
+		return display;
 	}
 
-	public void setCurrentDisplay(Display newDisplay) {
-		this.currentDisplay = newDisplay;
+	public void setDisplay(Display newDisplay) {
+		this.display = newDisplay;
 	}
 
 	public double getCurrentAmount() {
@@ -51,20 +51,20 @@ public class VendingMachine {
 	}
 
 	public String calculateDisplay() {
-		Display display = getCurrentDisplay();
+		Display display = getDisplay();
 
 		if (display.equals(Display.INSERT_COIN)) {
 			return "INSERT COIN";
 		} else if (display.equals(Display.CURRENT_AMOUNT)) {
 			return String.format("%.2f", getCurrentAmount());
 		} else if (display.equals(Display.THANK_YOU)) {
-			setCurrentDisplay(Display.INSERT_COIN);
+			setDisplay(Display.INSERT_COIN);
 			return "THANK YOU";
 		} else {
 			if (currentAmount > 0) {
-				setCurrentDisplay(Display.CURRENT_AMOUNT);
+				setDisplay(Display.CURRENT_AMOUNT);
 			} else {
-				setCurrentDisplay(Display.INSERT_COIN);
+				setDisplay(Display.INSERT_COIN);
 			}
 			return String.format("%.2f", getSelectedItemPrice());
 		}
@@ -75,7 +75,7 @@ public class VendingMachine {
 			setCoinReturn(getCoinReturn() + coin.getAmount());
 		} else {
 			setCurrentAmount(getCurrentAmount() + coin.getAmount());
-			setCurrentDisplay(Display.CURRENT_AMOUNT);
+			setDisplay(Display.CURRENT_AMOUNT);
 		}
 	}
 
@@ -86,18 +86,18 @@ public class VendingMachine {
 	public void buy(String productName) {
 		Product product = find(productName);
 		double amount = getCurrentAmount();
-		
+
 		if (product != null) {
 			double price = product.getPrice();
 			if (amount < price) {
-				setCurrentDisplay(Display.PRICE);
+				setDisplay(Display.PRICE);
 				setSelectedItemPrice(product.getPrice());
 			} else if (amount > price) {
-				setCurrentDisplay(Display.THANK_YOU);
+				setDisplay(Display.THANK_YOU);
 				setCoinReturn(amount - price);
 				setCurrentAmount(0);
 			} else {
-				setCurrentDisplay(Display.THANK_YOU);
+				setDisplay(Display.THANK_YOU);
 				setCurrentAmount(0);
 			}
 		}
@@ -105,5 +105,10 @@ public class VendingMachine {
 
 	private Product find(String productName) {
 		return inventory.get(productName);
+	}
+
+	public void returnCoins() {
+		setCoinReturn(0);
+		setDisplay(Display.INSERT_COIN);
 	}
 }

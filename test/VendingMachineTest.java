@@ -140,4 +140,12 @@ public class VendingMachineTest {
 
 		assertEquals(0.25, vendingMachine.getCoinReturn(), 0);
 	}
+
+	@Test
+	public void whenReturnCoinsButtonIsPressedTheCoinReturnBecomesZeroAndDisplayShowsInsertCoin() {
+		vendingMachine.setCoinReturn(5.50);
+		vendingMachine.returnCoins();
+		assertEquals(0, vendingMachine.getCoinReturn(), 0);
+		assertEquals("INSERT COIN", vendingMachine.calculateDisplay());
+	}
 }
