@@ -83,4 +83,28 @@ public class VendingMachineTest {
 		vendingMachine.buy("chocolate");
 		assertEquals("INSERT COIN", vendingMachine.calculateDisplay());
 	}
+
+	@Test
+	public void whenTheDisplayIsCheckedAgainAfterAProductIsDispensedItDisplaysInsertCoin() {
+		vendingMachine.insertCoin(Coin.QUARTER);
+		vendingMachine.insertCoin(Coin.QUARTER);
+		vendingMachine.insertCoin(Coin.DIME);
+		vendingMachine.insertCoin(Coin.NICKEL);
+
+		vendingMachine.buy("candy");
+		vendingMachine.calculateDisplay();
+
+		assertEquals("INSERT COIN", vendingMachine.calculateDisplay());
+	}
+
+	@Test
+	public void whenTheDisplayIsCheckedAgainAfterPriceOfProductWasDisplayedAndThereIsMoneyInsertedItDisplaysCurrentAmount() {
+		vendingMachine.insertCoin(Coin.QUARTER);
+		vendingMachine.insertCoin(Coin.QUARTER);
+
+		vendingMachine.buy("candy");
+		vendingMachine.calculateDisplay();
+
+		assertEquals("0.50", vendingMachine.calculateDisplay());
+	}
 }

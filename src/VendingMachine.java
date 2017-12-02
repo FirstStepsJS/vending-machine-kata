@@ -58,8 +58,12 @@ public class VendingMachine {
 		} else if (display.equals(Display.CURRENT_AMOUNT)) {
 			return String.format("%.2f", getCurrentAmount());
 		} else if (display.equals(Display.THANK_YOU)) {
+			setCurrentDisplay(Display.INSERT_COIN);
 			return "THANK YOU";
 		} else {
+			if (currentAmount > 0) {
+				setCurrentDisplay(Display.CURRENT_AMOUNT);
+			}
 			return String.format("%.2f", getSelectedItemPrice());
 		}
 	}
