@@ -10,11 +10,11 @@ public class VendingMachine {
 		if (currentAmount == 0) {
 		return "INSERT COIN";
 		} else {
-			return Double.toString(currentAmount);
+			return String.format("%.2f", currentAmount);
 		}
 	}
 
 	public void insertCoin(Coin coin) {
-		currentAmount = coin.getAmount();
+		currentAmount += coin.getAmount();
 	}
 }

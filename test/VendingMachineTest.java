@@ -21,4 +21,12 @@ public class VendingMachineTest {
 		vendingMachine.insertCoin(Coin.NICKEL);
 		assertEquals("0.05", vendingMachine.calculateDisplay());
 	}
+
+	@Test
+	public void whenMultipleValidCoinsAreInsertedTheMachineDisplaysTheSumOfTheAmountOfTheCoins() {
+		vendingMachine.insertCoin(Coin.NICKEL);
+		vendingMachine.insertCoin(Coin.DIME);
+		vendingMachine.insertCoin(Coin.QUARTER);
+		assertEquals("0.40", vendingMachine.calculateDisplay());
+	}
 }
