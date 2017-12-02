@@ -79,11 +79,13 @@ public class VendingMachine {
 
 	public void buy(String productName) {
 		Product product = find(productName);
-		if (getCurrentAmount() < product.getPrice()) {
-			setCurrentDisplay(Display.PRICE);
-			setSelectedItemPrice(product.getPrice());
-		} else
-		setCurrentDisplay(Display.THANK_YOU);
+		if (product != null) {
+			if (getCurrentAmount() < product.getPrice()) {
+				setCurrentDisplay(Display.PRICE);
+				setSelectedItemPrice(product.getPrice());
+			} else
+				setCurrentDisplay(Display.THANK_YOU);
+		}
 	}
 
 	private Product find(String productName) {
