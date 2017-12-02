@@ -89,8 +89,10 @@ public class VendingMachine {
 			if (getCurrentAmount() < product.getPrice()) {
 				setCurrentDisplay(Display.PRICE);
 				setSelectedItemPrice(product.getPrice());
-			} else
+			} else {
 				setCurrentDisplay(Display.THANK_YOU);
+				currentAmount = 0;
+			}
 		}
 	}
 
