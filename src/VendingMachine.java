@@ -4,6 +4,12 @@ public class VendingMachine {
 	private double coinReturn;
 	private Display currentDisplay;
 
+	public VendingMachine() {
+		currentAmount = 0;
+		coinReturn = 0;
+		currentDisplay = Display.INSERT_COIN;
+	}
+
 	public Display getCurrentDisplay() {
 		return currentDisplay;
 	}
@@ -12,18 +18,20 @@ public class VendingMachine {
 		this.currentDisplay = newDisplay;
 	}
 
-	public VendingMachine() {
-		currentAmount = 0;
-		coinReturn = 0;
-		currentDisplay = Display.INSERT_COIN;
-	}
-
 	public double getCurrentAmount() {
 		return currentAmount;
 	}
 
+	public void setCurrentAmount(double currentAmount) {
+		this.currentAmount = currentAmount;
+	}
+
 	public double getCoinReturn() {
 		return coinReturn;
+	}
+
+	public void setCoinReturn(double coinReturn) {
+		this.coinReturn = coinReturn;
 	}
 
 	public String calculateDisplay() {
@@ -39,10 +47,10 @@ public class VendingMachine {
 
 	public void insertCoin(Coin coin) {
 		if (coin.equals(Coin.PENNY)) {
-			coinReturn += coin.getAmount();
+			setCoinReturn(getCoinReturn() + coin.getAmount());
 		} else {
-		currentAmount += coin.getAmount();
-			currentDisplay = Display.CURRENT_AMOUNT;
+			setCurrentAmount(getCurrentAmount() + coin.getAmount());
+			setCurrentDisplay(Display.CURRENT_AMOUNT);
 		}
 	}
 
@@ -51,7 +59,7 @@ public class VendingMachine {
 	}
 
 	public void buy(Product product) {
-		currentDisplay = Display.THANK_YOU;
+		setCurrentDisplay(Display.THANK_YOU);
 	}
 
 }
