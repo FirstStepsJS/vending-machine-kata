@@ -35,14 +35,17 @@ public class VendingMachine {
 	}
 
 	public String calculateDisplay() {
-		if (getCurrentDisplay().equals(Display.INSERT_COIN)) {
-			return "INSERT COIN";
-		} else if (getCurrentDisplay().equals(Display.CURRENT_AMOUNT)) {
-			return String.format("%.2f", getCurrentAmount());
-		} else {
-			return "THANK YOU";
-		}
+		Display display = getCurrentDisplay();
 
+		if (display.equals(Display.INSERT_COIN)) {
+			return "INSERT COIN";
+		} else if (display.equals(Display.CURRENT_AMOUNT)) {
+			return String.format("%.2f", getCurrentAmount());
+		} else if (display.equals(Display.THANK_YOU)) {
+			return "THANK YOU";
+		} else {
+			return String.format("%.2f", 1.00);
+		}
 	}
 
 	public void insertCoin(Coin coin) {
@@ -59,7 +62,9 @@ public class VendingMachine {
 	}
 
 	public void buy(Product product) {
+		if (getCurrentAmount() < product.getPrice()) {
+			setCurrentDisplay(Display.PRICE);
+		} else
 		setCurrentDisplay(Display.THANK_YOU);
 	}
-
 }

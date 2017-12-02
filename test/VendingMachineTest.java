@@ -51,10 +51,20 @@ public class VendingMachineTest {
 		vendingMachine.insertCoin(Coin.QUARTER);
 		vendingMachine.insertCoin(Coin.QUARTER);
 		vendingMachine.insertCoin(Coin.QUARTER);
-
 		Product selectedProduct = new Product("cola", 1.00);
+
 		vendingMachine.buy(selectedProduct);
 
 		assertEquals("THANK YOU", vendingMachine.calculateDisplay());
+	}
+
+	@Test
+	public void whenAProductIsSelectedAndNotEnoughMoneyIsInsertedTheMachineDisplaysTheProductPrice() {
+		vendingMachine.insertCoin(Coin.QUARTER);
+		Product selectedProduct = new Product("cola", 1.00);
+
+		vendingMachine.buy(selectedProduct);
+
+		assertEquals("1.00", vendingMachine.calculateDisplay());
 	}
 }
