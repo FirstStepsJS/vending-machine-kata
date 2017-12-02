@@ -36,4 +36,12 @@ public class VendingMachineTest {
 		assertEquals("INSERT COIN", vendingMachine.calculateDisplay());
 		assertEquals("0.01", vendingMachine.calculateCoinReturn());
 	}
+
+	@Test
+	public void whenMultipleInvalidCoinsAreInsertedTheSumOfTheirAmountIsPlacedInTheCoinReturn() {
+		vendingMachine.insertCoin(Coin.PENNY);
+		vendingMachine.insertCoin(Coin.PENNY);
+		vendingMachine.insertCoin(Coin.PENNY);
+		assertEquals("0.03", vendingMachine.calculateCoinReturn());
+	}
 }

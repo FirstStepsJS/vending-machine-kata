@@ -18,7 +18,7 @@ public class VendingMachine {
 
 	public void insertCoin(Coin coin) {
 		if (coin.equals(Coin.PENNY)) {
-			coinReturn = coin.getAmount();
+			coinReturn += coin.getAmount();
 		} else {
 		currentAmount += coin.getAmount();
 		}
@@ -27,4 +27,5 @@ public class VendingMachine {
 	public String calculateCoinReturn() {
 		return String.format("%.2f", coinReturn);
 	}
+
 }
