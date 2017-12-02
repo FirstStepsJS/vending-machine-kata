@@ -51,9 +51,8 @@ public class VendingMachineTest {
 		vendingMachine.insertCoin(Coin.QUARTER);
 		vendingMachine.insertCoin(Coin.QUARTER);
 		vendingMachine.insertCoin(Coin.QUARTER);
-		Product selectedProduct = new Product("cola", 1.00);
 
-		vendingMachine.buy(selectedProduct);
+		vendingMachine.buy("cola");
 
 		assertEquals("THANK YOU", vendingMachine.calculateDisplay());
 	}
@@ -61,20 +60,14 @@ public class VendingMachineTest {
 	@Test
 	public void whenAProductIsSelectedAndNotEnoughMoneyIsInsertedTheMachineDisplaysTheProductPrice() {
 		vendingMachine.insertCoin(Coin.QUARTER);
-		Product selectedProduct = new Product("cola", 1.00);
-
-		vendingMachine.buy(selectedProduct);
-
+		vendingMachine.buy("cola");
 		assertEquals("1.00", vendingMachine.calculateDisplay());
 	}
 
 	@Test
 	public void whenChipsIsSelectedAndNotEnoughMoneyIsInsertedTheMachineDisplaysFiftyCents() {
 		vendingMachine.insertCoin(Coin.QUARTER);
-		Product selectedProduct = new Product("chips", 0.50);
-
-		vendingMachine.buy(selectedProduct);
-
+		vendingMachine.buy("chips");
 		assertEquals("0.50", vendingMachine.calculateDisplay());
 	}
 }

@@ -1,15 +1,21 @@
+import java.util.HashMap;
 
 public class VendingMachine {
 	private double currentAmount;
 	private double coinReturn;
 	private Display currentDisplay;
 	private double selectedItemPrice;
+	HashMap<String, Product> inventory;
 
 	public VendingMachine() {
 		currentAmount = 0;
 		coinReturn = 0;
 		currentDisplay = Display.INSERT_COIN;
 		selectedItemPrice = 0;
+		inventory = new HashMap<>();
+		inventory.put("cola", new Product("cola", 1.00));
+		inventory.put("chips", new Product("chips", .50));
+		inventory.put("candy", new Product("candy", .65));
 	}
 
 	public Display getCurrentDisplay() {
@@ -71,11 +77,16 @@ public class VendingMachine {
 		return String.format("%.2f", getCoinReturn());
 	}
 
-	public void buy(Product product) {
+	public void buy(String productName) {
+		Product product = find(productName);
 		if (getCurrentAmount() < product.getPrice()) {
 			setCurrentDisplay(Display.PRICE);
 			setSelectedItemPrice(product.getPrice());
 		} else
 		setCurrentDisplay(Display.THANK_YOU);
+	}
+
+	private Product find(String productName) {
+		return inventory.get(productName);
 	}
 }
