@@ -77,4 +77,10 @@ public class VendingMachineTest {
 		vendingMachine.buy("chocolate");
 		assertEquals("0.25", vendingMachine.calculateDisplay());
 	}
+
+	@Test
+	public void whenAnInvalidProductIsSelectedAndThereIsNoMoneyInsertedTheMachineDisplaysInsertCoin() {
+		vendingMachine.buy("chocolate");
+		assertEquals("INSERT COIN", vendingMachine.calculateDisplay());
+	}
 }
