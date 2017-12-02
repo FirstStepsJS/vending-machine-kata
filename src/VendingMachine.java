@@ -8,11 +8,19 @@ public class VendingMachine {
 		coinReturn = 0;
 	}
 
+	public double getCurrentAmount() {
+		return currentAmount;
+	}
+
+	public double getCoinReturn() {
+		return coinReturn;
+	}
+
 	public String calculateDisplay() {
-		if (currentAmount == 0) {
+		if (getCurrentAmount() == 0) {
 		return "INSERT COIN";
 		} else {
-			return String.format("%.2f", currentAmount);
+			return String.format("%.2f", getCurrentAmount());
 		}
 	}
 
@@ -25,7 +33,7 @@ public class VendingMachine {
 	}
 
 	public String calculateCoinReturn() {
-		return String.format("%.2f", coinReturn);
+		return String.format("%.2f", getCoinReturn());
 	}
 
 }
