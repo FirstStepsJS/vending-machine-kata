@@ -19,4 +19,12 @@ public class CoinTest {
 
 		assertFalse(coin.equals(coin2));
 	}
+
+	@Test
+	public void equals_WhenComparingToAnotherObjectType_ReturnsFalse() {
+		Coin coin = new Coin(1, 1, 1, 1);
+		String coin2 = "I want to be a coin";
+
+		assertFalse(coin.equals(coin2));
+	}
 }
