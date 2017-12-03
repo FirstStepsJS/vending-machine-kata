@@ -75,7 +75,7 @@ public class VendingMachine {
 		case PRICE:
 			Display newDisplay = currentAmount > 0 ? Display.CURRENT_AMOUNT : Display.INSERT_COIN;
 			setDisplay(newDisplay);
-			displayText = String.format("$%.2f", getSelectedItemPrice());
+			displayText = String.format("PRICE: $%.2f", getSelectedItemPrice());
 		}
 		return displayText;
 	}

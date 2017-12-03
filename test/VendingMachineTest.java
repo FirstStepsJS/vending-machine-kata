@@ -71,17 +71,17 @@ public class VendingMachineTest {
 	}
 
 	@Test
-	public void whenAProductIsSelectedAndNotEnoughMoneyIsInsertedTheMachineDisplaysTheProductPrice() {
+	public void whenAProductIsSelectedAndNotEnoughMoneyIsInsertedTheMachineDisplaysPriceAndTheProductPrice() {
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.buy("cola");
-		assertEquals("$1.00", vendingMachine.getDisplayText());
+		assertEquals("PRICE: $1.00", vendingMachine.getDisplayText());
 	}
 
 	@Test
-	public void whenChipsIsSelectedAndNotEnoughMoneyIsInsertedTheMachineDisplaysFiftyCents() {
+	public void whenChipsIsSelectedAndNotEnoughMoneyIsInsertedTheMachineDisplaysPriceAndFiftyCents() {
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.buy("chips");
-		assertEquals("$0.50", vendingMachine.getDisplayText());
+		assertEquals("PRICE: $0.50", vendingMachine.getDisplayText());
 	}
 
 	@Test
