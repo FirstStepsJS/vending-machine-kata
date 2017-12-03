@@ -106,36 +106,33 @@ public class VendingMachine {
 
 	public void buy(String productName) {
 		Product product = find(productName);
+		if (product == null) {
+			return;
+		}
+
+		double quantity = product.getQuantity();
+		if (quantity == 0) {
+			setDisplay(Display.SOLD_OUT);
+			return;
+		}
+
 		double amount = getCurrentAmount();
+		double price = product.getPrice();
 
-		if (product != null) {
-			double price = product.getPrice();
-			double quantity = product.getQuantity();
-			if (quantity == 0) {
-				setDisplay(Display.SOLD_OUT);
-			} else {
-				if (amount < price) {
-					setSelectedItemPrice(product.getPrice());
-					setDisplay(Display.PRICE);
-				} else if (amount > price) {
-					decreaseInventory(product);
-					setCoinReturn(getCoinReturn() + (amount - price));
-					setCurrentAmount(0);
-					setDisplay(Display.THANK_YOU);
+		if (amount < price) {
+			setSelectedItemPrice(product.getPrice());
+			setDisplay(Display.PRICE);
+		} else {
+			decreaseInventory(product);
+			setCoinReturn(getCoinReturn() + (amount - price));
+			setCurrentAmount(0);
+			setDisplay(Display.THANK_YOU);
 
-				} else {
-					decreaseInventory(product);
-					setCurrentAmount(0);
-					setDisplay(Display.THANK_YOU);
-				}
-
-			}
 		}
 	}
 
 	private void decreaseInventory(Product product) {
 		product.setQuantity(product.getQuantity() - 1);
-		inventory.put(product.getName(), product);
 	}
 
 	private Product find(String productName) {
