@@ -155,7 +155,7 @@ public class VendingMachineTest {
 	}
 
 	@Test
-	public void getCoinReturn_ProductSelectedCostsLessThanMoneyInsertedAndThereIsExistingCoinReturn_DifferenceIsAddedToCoinReturn() {
+	public void getCoinReturn_whenProductSelectedCostsLessThanMoneyInsertedAndThereIsExistingCoinReturn_DifferenceIsAddedToCoinReturn() {
 		// Penny should go to coin return
 		vendingMachine.insertCoin(PENNY);
 
@@ -181,5 +181,23 @@ public class VendingMachineTest {
 		vendingMachine.returnCoins();
 		assertEquals(0, vendingMachine.getCoinReturn(), 0);
 		assertEquals("INSERT COIN", vendingMachine.getDisplayText());
+	}
+
+	@Test
+	public void returnCoins_whenCustomerHasInsertedValidCoinsInTheMachine_AmountOfCoinsInsertedIsReturned() {
+		vendingMachine.insertCoin(QUARTER);
+		vendingMachine.insertCoin(QUARTER);
+
+		assertEquals(0.50, vendingMachine.returnCoins(), 0);
+	}
+
+	@Test
+	public void returnCoins_whenCustomerHasInsertedPenniesAndValidCoinsInTheMachine_AmountOfPenniesAndValidCoinsInsertedIsReturned() {
+		vendingMachine.insertCoin(PENNY);
+		vendingMachine.insertCoin(PENNY);
+		vendingMachine.insertCoin(QUARTER);
+		vendingMachine.insertCoin(QUARTER);
+
+		assertEquals(0.52, vendingMachine.returnCoins(), 0);
 	}
 }

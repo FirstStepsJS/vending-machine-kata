@@ -121,9 +121,12 @@ public class VendingMachine {
 		return inventory.get(productName);
 	}
 
-	public void returnCoins() {
+	public double returnCoins() {
+		double amountToReturn = getCoinReturn() + getCurrentAmount();
 		setCoinReturn(0);
+		setCurrentAmount(0);
 		setDisplay(Display.INSERT_COIN);
+		return amountToReturn;
 	}
 
 	private double calculateCoinValue(Coin coin) {
