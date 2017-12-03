@@ -248,4 +248,18 @@ public class VendingMachineTest {
 		assertEquals("SOLD OUT", vendingMachine2.getDisplayText());
 		assertEquals("INSERT COIN", vendingMachine2.getDisplayText());
 	}
+
+	@Test
+	public void insertCoins_whenInvalidCoinIsInserted_theMachineDisplaysInsertCoin() {
+		Coin invalidCoin = new Coin(5, 1.0, 2.0, 200);
+		vendingMachine.insertCoin(invalidCoin);
+		assertEquals("INSERT COIN", vendingMachine.getDisplayText());
+	}
+
+	@Test
+	public void insertCoins_whenInvalidCoinIsInserted_theCurrentAmountIsZero() {
+		Coin invalidCoin = new Coin(5, 1.0, 2.0, 200);
+		vendingMachine.insertCoin(invalidCoin);
+		assertEquals(0, vendingMachine.getCurrentAmount(), 0);
+	}
 }

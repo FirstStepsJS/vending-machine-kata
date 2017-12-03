@@ -22,7 +22,7 @@ public class VendingMachine {
 		inventory = new HashMap<>();
 	}
 
-	public Display getDisplay() {
+	private Display getDisplay() {
 		return display;
 	}
 
