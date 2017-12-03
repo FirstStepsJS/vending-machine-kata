@@ -35,4 +35,12 @@ public class CoinTest {
 
 		assertTrue(coin.equals(coin2));
 	}
+
+	@Test
+	public void equals_WhenComparingToACoinWithDifferentProperties_ReturnsFalse() {
+		Coin coin = new Coin(1, 1, 1, 1);
+		Coin coin2 = new Coin(2, 1, 1, 1);
+
+		assertFalse(coin.equals(coin2));
+	}
 }
