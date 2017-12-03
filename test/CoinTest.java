@@ -27,4 +27,12 @@ public class CoinTest {
 
 		assertFalse(coin.equals(coin2));
 	}
+
+	@Test
+	public void equals_WhenComparingToACoinWithSameProperties_ReturnsTrue() {
+		Coin coin = new Coin(1, 1, 1, 1);
+		Coin coin2 = new Coin(1, 1, 1, 1);
+
+		assertTrue(coin.equals(coin2));
+	}
 }
