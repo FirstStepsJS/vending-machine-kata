@@ -20,16 +20,13 @@ public class VendingMachine {
 		display = Display.INSERT_COIN;
 		selectedItemPrice = 0;
 		inventory = new HashMap<>();
-		inventory.put("cola", new Product("cola", 1.00));
-		inventory.put("chips", new Product("chips", .50));
-		inventory.put("candy", new Product("candy", .65));
 	}
 
 	public Display getDisplay() {
 		return display;
 	}
 
-	public void setDisplay(Display newDisplay) {
+	private void setDisplay(Display newDisplay) {
 		this.display = newDisplay;
 	}
 
@@ -37,7 +34,7 @@ public class VendingMachine {
 		return currentAmount;
 	}
 
-	public void setCurrentAmount(double currentAmount) {
+	private void setCurrentAmount(double currentAmount) {
 		this.currentAmount = currentAmount;
 	}
 
@@ -45,42 +42,49 @@ public class VendingMachine {
 		return coinReturn;
 	}
 
-	public void setCoinReturn(double coinReturn) {
+	void setCoinReturn(double coinReturn) {
 		this.coinReturn = coinReturn;
 	}
 
-	public double getSelectedItemPrice() {
+	private double getSelectedItemPrice() {
 		return selectedItemPrice;
 	}
 
-	public void setSelectedItemPrice(double selectedItemPrice) {
+	private void setSelectedItemPrice(double selectedItemPrice) {
 		this.selectedItemPrice = selectedItemPrice;
 	}
 
-	public String calculateDisplay() {
-		Display display = getDisplay();
+	public void setInventory(HashMap<String, Product> inventory) {
+		this.inventory = inventory;
+	}
 
-		if (display.equals(Display.INSERT_COIN)) {
-			return "INSERT COIN";
-		} else if (display.equals(Display.CURRENT_AMOUNT)) {
-			return String.format("%.2f", getCurrentAmount());
-		} else if (display.equals(Display.THANK_YOU)) {
+	public String getDisplayText() {
+		String displayText = "";
+
+		switch (getDisplay()) {
+		case INSERT_COIN:
+			displayText = "INSERT COIN";
+			break;
+		case CURRENT_AMOUNT:
+			displayText = String.format("$%.2f", getCurrentAmount());
+			break;
+		case THANK_YOU:
+			displayText = "THANK YOU";
 			setDisplay(Display.INSERT_COIN);
-			return "THANK YOU";
-		} else {
-			if (currentAmount > 0) {
-				setDisplay(Display.CURRENT_AMOUNT);
-			} else {
-				setDisplay(Display.INSERT_COIN);
-			}
-			return String.format("%.2f", getSelectedItemPrice());
+			break;
+		case PRICE:
+			Display newDisplay = currentAmount > 0 ? Display.CURRENT_AMOUNT : Display.INSERT_COIN;
+			setDisplay(newDisplay);
+			displayText = String.format("$%.2f", getSelectedItemPrice());
 		}
+		return displayText;
 	}
 
 	public void insertCoin(Coin coin) {
 		double coinValue = calculateCoinValue(coin);
 
-		// pennies are not accepted, so they're added to coin return
+		// Pennies (and non recognized coins which are assigned 0 value) are not
+		// accepted
 		if (coinValue <= 0.01) {
 			setCoinReturn(getCoinReturn() + coinValue);
 		} else {
@@ -90,7 +94,7 @@ public class VendingMachine {
 	}
 
 	public String calculateCoinReturn() {
-		return String.format("%.2f", getCoinReturn());
+		return String.format("$%.2f", getCoinReturn());
 	}
 
 	public void buy(String productName) {

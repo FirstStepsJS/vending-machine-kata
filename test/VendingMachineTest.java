@@ -1,5 +1,7 @@
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashMap;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,17 +15,24 @@ public class VendingMachineTest {
 	@Before
 	public void setup() {
 		vendingMachine = new VendingMachine();
+
+		// Setting the vending machine inventory to the specified products
+		HashMap<String, Product> inventory = new HashMap<>();
+		inventory.put("cola", new Product("cola", 1.00));
+		inventory.put("chips", new Product("chips", .50));
+		inventory.put("candy", new Product("candy", .65));
+		vendingMachine.setInventory(inventory);
 	}
 
 	@Test
 	public void whenThereAreNoCoinsTheMachineDisplaysInsertCoin() {
-		assertEquals("INSERT COIN", vendingMachine.calculateDisplay());
+		assertEquals("INSERT COIN", vendingMachine.getDisplayText());
 	}
 
 	@Test
 	public void whenAValidCoinIsInsertedTheMachineDisplaysTheAmountOfTheCoin() {
 		vendingMachine.insertCoin(NICKEL);
-		assertEquals("0.05", vendingMachine.calculateDisplay());
+		assertEquals("$0.05", vendingMachine.getDisplayText());
 	}
 
 	@Test
@@ -31,14 +40,14 @@ public class VendingMachineTest {
 		vendingMachine.insertCoin(NICKEL);
 		vendingMachine.insertCoin(DIME);
 		vendingMachine.insertCoin(QUARTER);
-		assertEquals("0.40", vendingMachine.calculateDisplay());
+		assertEquals("$0.40", vendingMachine.getDisplayText());
 	}
 
 	@Test
 	public void whenAnInvalidCoinIsInsertedItIsPlacedInTheCoinReturn() {
 		vendingMachine.insertCoin(PENNY);
-		assertEquals("INSERT COIN", vendingMachine.calculateDisplay());
-		assertEquals("0.01", vendingMachine.calculateCoinReturn());
+		assertEquals("INSERT COIN", vendingMachine.getDisplayText());
+		assertEquals("$0.01", vendingMachine.calculateCoinReturn());
 	}
 
 	@Test
@@ -46,7 +55,7 @@ public class VendingMachineTest {
 		vendingMachine.insertCoin(PENNY);
 		vendingMachine.insertCoin(PENNY);
 		vendingMachine.insertCoin(PENNY);
-		assertEquals("0.03", vendingMachine.calculateCoinReturn());
+		assertEquals("$0.03", vendingMachine.calculateCoinReturn());
 	}
 
 	@Test
@@ -58,34 +67,34 @@ public class VendingMachineTest {
 
 		vendingMachine.buy("cola");
 
-		assertEquals("THANK YOU", vendingMachine.calculateDisplay());
+		assertEquals("THANK YOU", vendingMachine.getDisplayText());
 	}
 
 	@Test
 	public void whenAProductIsSelectedAndNotEnoughMoneyIsInsertedTheMachineDisplaysTheProductPrice() {
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.buy("cola");
-		assertEquals("1.00", vendingMachine.calculateDisplay());
+		assertEquals("$1.00", vendingMachine.getDisplayText());
 	}
 
 	@Test
 	public void whenChipsIsSelectedAndNotEnoughMoneyIsInsertedTheMachineDisplaysFiftyCents() {
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.buy("chips");
-		assertEquals("0.50", vendingMachine.calculateDisplay());
+		assertEquals("$0.50", vendingMachine.getDisplayText());
 	}
 
 	@Test
 	public void whenAnInvalidProductIsSelectedAndThereIsMoneyInsertedTheMachineDisplaysCurrentAmount() {
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.buy("chocolate");
-		assertEquals("0.25", vendingMachine.calculateDisplay());
+		assertEquals("$0.25", vendingMachine.getDisplayText());
 	}
 
 	@Test
 	public void whenAnInvalidProductIsSelectedAndThereIsNoMoneyInsertedTheMachineDisplaysInsertCoin() {
 		vendingMachine.buy("chocolate");
-		assertEquals("INSERT COIN", vendingMachine.calculateDisplay());
+		assertEquals("INSERT COIN", vendingMachine.getDisplayText());
 	}
 
 	@Test
@@ -96,9 +105,9 @@ public class VendingMachineTest {
 		vendingMachine.insertCoin(NICKEL);
 
 		vendingMachine.buy("candy");
-		vendingMachine.calculateDisplay();
+		vendingMachine.getDisplayText();
 
-		assertEquals("INSERT COIN", vendingMachine.calculateDisplay());
+		assertEquals("INSERT COIN", vendingMachine.getDisplayText());
 	}
 
 	@Test
@@ -107,17 +116,17 @@ public class VendingMachineTest {
 		vendingMachine.insertCoin(QUARTER);
 
 		vendingMachine.buy("candy");
-		vendingMachine.calculateDisplay();
+		vendingMachine.getDisplayText();
 
-		assertEquals("0.50", vendingMachine.calculateDisplay());
+		assertEquals("$0.50", vendingMachine.getDisplayText());
 	}
 
 	@Test
 	public void whenTheDisplayIsCheckedAgainAfterPriceOfProductWasDisplayedAndThereIsNoMoneyInsertedItDisplaysInsertCoin() {
 		vendingMachine.buy("candy");
-		vendingMachine.calculateDisplay();
+		vendingMachine.getDisplayText();
 
-		assertEquals("INSERT COIN", vendingMachine.calculateDisplay());
+		assertEquals("INSERT COIN", vendingMachine.getDisplayText());
 	}
 
 	@Test
@@ -150,6 +159,6 @@ public class VendingMachineTest {
 		vendingMachine.setCoinReturn(5.50);
 		vendingMachine.returnCoins();
 		assertEquals(0, vendingMachine.getCoinReturn(), 0);
-		assertEquals("INSERT COIN", vendingMachine.calculateDisplay());
+		assertEquals("INSERT COIN", vendingMachine.getDisplayText());
 	}
 }
