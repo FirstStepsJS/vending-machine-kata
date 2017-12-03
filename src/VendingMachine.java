@@ -127,7 +127,6 @@ public class VendingMachine {
 			setCoinReturn(getCoinReturn() + (amount - price));
 			setCurrentAmount(0);
 			setDisplay(Display.THANK_YOU);
-
 		}
 	}
 

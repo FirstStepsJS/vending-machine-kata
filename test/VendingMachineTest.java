@@ -25,18 +25,18 @@ public class VendingMachineTest {
 	}
 
 	@Test
-	public void whenThereAreNoCoinsTheMachineDisplaysInsertCoin() {
+	public void getDisplayText_WhenThereAreNoCoins_DisplaysInsertCoin() {
 		assertEquals("INSERT COIN", vendingMachine.getDisplayText());
 	}
 
 	@Test
-	public void whenAValidCoinIsInsertedTheMachineDisplaysTheAmountOfTheCoin() {
+	public void getDisplayText_WhenAValidCoinIsInserted_DisplaysAmountOfTheCoin() {
 		vendingMachine.insertCoin(NICKEL);
 		assertEquals("$0.05", vendingMachine.getDisplayText());
 	}
 
 	@Test
-	public void whenMultipleValidCoinsAreInsertedTheMachineDisplaysTheSumOfTheAmountOfTheCoins() {
+	public void getDisplayText_WhenMultipleValidCoinsAreInserted_DisplaysSumOfTheCoinsValue() {
 		vendingMachine.insertCoin(NICKEL);
 		vendingMachine.insertCoin(DIME);
 		vendingMachine.insertCoin(QUARTER);
@@ -44,14 +44,19 @@ public class VendingMachineTest {
 	}
 
 	@Test
-	public void whenAnInvalidCoinIsInsertedItIsPlacedInTheCoinReturn() {
+	public void getDisplayText_WhenAPennyIsInserted_DisplaysInsertCoin() {
 		vendingMachine.insertCoin(PENNY);
 		assertEquals("INSERT COIN", vendingMachine.getDisplayText());
+	}
+
+	@Test
+	public void calculateCoinReturn_WhenAPennyIsInserted_CoinReturnIsOneCent() {
+		vendingMachine.insertCoin(PENNY);
 		assertEquals("$0.01", vendingMachine.calculateCoinReturn());
 	}
 
 	@Test
-	public void whenMultipleInvalidCoinsAreInsertedTheSumOfTheirAmountIsPlacedInTheCoinReturn() {
+	public void calculateCoinReturn_WhenMultiplePenniesAreInserted_CoinReturnIsTheSumOfThePennies() {
 		vendingMachine.insertCoin(PENNY);
 		vendingMachine.insertCoin(PENNY);
 		vendingMachine.insertCoin(PENNY);
@@ -59,7 +64,7 @@ public class VendingMachineTest {
 	}
 
 	@Test
-	public void whenAProductIsSelectedAndEnoughMoneyIsInsertedTheProductIsDispensedAndTheMachineDisplaysThankYou() {
+	public void getDisplayText_WhenAProductIsSelectedAndEnoughMoneyIsInserted_DisplaysThankYouAndProductIsDispensed() {
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.insertCoin(QUARTER);
@@ -71,34 +76,34 @@ public class VendingMachineTest {
 	}
 
 	@Test
-	public void whenAProductIsSelectedAndNotEnoughMoneyIsInsertedTheMachineDisplaysPriceAndTheProductPrice() {
+	public void getDisplayText_WhenAProductIsSelectedAndNotEnoughMoneyIsInserted_DisplaysPriceProductPrice() {
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.buy("cola");
 		assertEquals("PRICE: $1.00", vendingMachine.getDisplayText());
 	}
 
 	@Test
-	public void whenChipsIsSelectedAndNotEnoughMoneyIsInsertedTheMachineDisplaysPriceAndFiftyCents() {
+	public void getDisplayText_WhenChipsIsSelectedAndNotEnoughMoneyIsInserted_DisplaysPriceFiftyCents() {
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.buy("chips");
 		assertEquals("PRICE: $0.50", vendingMachine.getDisplayText());
 	}
 
 	@Test
-	public void whenAnInvalidProductIsSelectedAndThereIsMoneyInsertedTheMachineDisplaysCurrentAmount() {
+	public void getDisplayText_WhenAnInvalidProductIsSelectedAndThereIsMoneyInserted_DisplaysCurrentAmount() {
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.buy("chocolate");
 		assertEquals("$0.25", vendingMachine.getDisplayText());
 	}
 
 	@Test
-	public void whenAnInvalidProductIsSelectedAndThereIsNoMoneyInsertedTheMachineDisplaysInsertCoin() {
+	public void getDisplayText_WhenAnInvalidProductIsSelectedAndThereIsNoMoneyInserted_DisplaysInsertCoin() {
 		vendingMachine.buy("chocolate");
 		assertEquals("INSERT COIN", vendingMachine.getDisplayText());
 	}
 
 	@Test
-	public void whenTheDisplayIsCheckedAgainAfterAProductIsDispensedItDisplaysInsertCoin() {
+	public void getDisplayText_WhenTheDisplayIsCheckedAgainAfterAProductIsDispensed_DisplaysInsertCoin() {
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.insertCoin(DIME);
@@ -111,7 +116,7 @@ public class VendingMachineTest {
 	}
 
 	@Test
-	public void whenTheDisplayIsCheckedAgainAfterPriceOfProductWasDisplayedAndThereIsMoneyInsertedItDisplaysCurrentAmount() {
+	public void getDisplayText_WhenTheDisplayIsCheckedAgainAfterPriceOfProductWasDisplayedAndThereIsMoneyInserted_DisplaysCurrentAmount() {
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.insertCoin(QUARTER);
 
@@ -122,7 +127,7 @@ public class VendingMachineTest {
 	}
 
 	@Test
-	public void whenTheDisplayIsCheckedAgainAfterPriceOfProductWasDisplayedAndThereIsNoMoneyInsertedItDisplaysInsertCoin() {
+	public void getDisplayText_WhenTheDisplayIsCheckedAgainAfterPriceOfProductWasDisplayedAndThereIsNoMoneyInserted_DisplaysInsertCoin() {
 		vendingMachine.buy("candy");
 		vendingMachine.getDisplayText();
 
@@ -130,7 +135,7 @@ public class VendingMachineTest {
 	}
 
 	@Test
-	public void whenCurrentAmountIsCheckedAfterAProductIsDispensedItIsZero() {
+	public void getCurrentAmount_WhenCurrentAmountIsCheckedAfterAProductIsDispensed_ReturnsZero() {
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.insertCoin(DIME);
@@ -142,7 +147,7 @@ public class VendingMachineTest {
 	}
 
 	@Test
-	public void whenAProductIsSelectedThatCostsLessThanCurrentAmountTheDifferenceGoesToCoinReturn() {
+	public void getCoinReturn_WhenAProductIsSelectedThatCostsLessThanCurrentAmount_DifferenceIsReturned() {
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.insertCoin(QUARTER);
@@ -155,7 +160,7 @@ public class VendingMachineTest {
 	}
 
 	@Test
-	public void getCoinReturn_whenProductSelectedCostsLessThanMoneyInsertedAndThereIsExistingCoinReturn_DifferenceIsAddedToCoinReturn() {
+	public void getCoinReturn_WhenProductSelectedCostsLessThanMoneyInsertedAndThereIsExistingCoinReturn_DifferenceIsAddedToCoinReturn() {
 		// Penny should go to coin return
 		vendingMachine.insertCoin(PENNY);
 
@@ -173,18 +178,26 @@ public class VendingMachineTest {
 	}
 
 	@Test
-	public void whenReturnCoinsButtonIsPressedTheCoinReturnBecomesZeroAndDisplayShowsInsertCoin() {
+	public void getCoinReturn_WhenReturnCoinsButtonIsPressed_CoinReturnBecomesZero() {
 		vendingMachine.insertCoin(PENNY);
 		vendingMachine.insertCoin(PENNY);
 		vendingMachine.insertCoin(PENNY);
 
 		vendingMachine.returnCoins();
 		assertEquals(0, vendingMachine.getCoinReturn(), 0);
+	}
+
+	public void getDisplayText_WhenReturnCoinsButtonIsPressed_DisplayShowsInsertCoin() {
+		vendingMachine.insertCoin(PENNY);
+		vendingMachine.insertCoin(PENNY);
+		vendingMachine.insertCoin(PENNY);
+
+		vendingMachine.returnCoins();
 		assertEquals("INSERT COIN", vendingMachine.getDisplayText());
 	}
 
 	@Test
-	public void returnCoins_whenCustomerHasInsertedValidCoinsInTheMachine_AmountOfCoinsInsertedIsReturned() {
+	public void returnCoins_WhenValidCoinsAreInserted_AmountOfCoinsInsertedIsReturned() {
 		vendingMachine.insertCoin(QUARTER);
 		vendingMachine.insertCoin(QUARTER);
 
@@ -192,7 +205,7 @@ public class VendingMachineTest {
 	}
 
 	@Test
-	public void returnCoins_whenCustomerHasInsertedPenniesAndValidCoinsInTheMachine_AmountOfPenniesAndValidCoinsInsertedIsReturned() {
+	public void returnCoins_WhenCustomerHasInsertedPenniesAndValidCoinsInTheMachine_AmountOfPenniesAndValidCoinsInsertedIsReturned() {
 		vendingMachine.insertCoin(PENNY);
 		vendingMachine.insertCoin(PENNY);
 		vendingMachine.insertCoin(QUARTER);
@@ -202,7 +215,7 @@ public class VendingMachineTest {
 	}
 
 	@Test
-	public void buy_whenProductSelectedIsOutOfStockAndThereIsMoneyInserted_theMachineDisplaysAmountRemaining() {
+	public void getDisplayText_WhenProductSelectedIsOutOfStock_DisplaysSoldOut() {
 		// This vending machine is setup to have only one candy in inventory
 		VendingMachine vendingMachine2 = new VendingMachine();
 		HashMap<String, Product> lowInventory = new HashMap<>();
@@ -221,14 +234,42 @@ public class VendingMachineTest {
 		vendingMachine2.insertCoin(QUARTER);
 		vendingMachine2.insertCoin(DIME);
 		vendingMachine2.insertCoin(NICKEL);
+
 		vendingMachine2.buy("candy");
 
 		assertEquals("SOLD OUT", vendingMachine2.getDisplayText());
-		assertEquals("$0.65", vendingMachine2.getDisplayText());
 	}
 
 	@Test
-	public void buy_whenProductSelectedIsOutOfStockAndThereIsNoMoneyInserted_theMachineDisplaysInsertCoin() {
+	public void getDisplayText_WhenTheDisplayIsCheckedAgainAfterSoldOutWasDisplayedAndThereIsMoneyInserted_DisplaysAmountRemaining() {
+		// This vending machine is setup to have only one candy in inventory
+		VendingMachine vendingMachine2 = new VendingMachine();
+		HashMap<String, Product> lowInventory = new HashMap<>();
+		lowInventory.put("candy", new Product("candy", .65, 1));
+		vendingMachine2.setInventory(lowInventory);
+
+		// A customer buys the only candy in inventory
+		vendingMachine2.insertCoin(QUARTER);
+		vendingMachine2.insertCoin(QUARTER);
+		vendingMachine2.insertCoin(DIME);
+		vendingMachine2.insertCoin(NICKEL);
+		vendingMachine2.buy("candy");
+
+		// Another customer tries to buy candy (when candy quantity is 0)
+		vendingMachine2.insertCoin(QUARTER);
+		vendingMachine2.insertCoin(QUARTER);
+		vendingMachine2.insertCoin(DIME);
+		vendingMachine2.insertCoin(NICKEL);
+
+		vendingMachine2.buy("candy");
+		vendingMachine2.getDisplayText();
+
+		assertEquals("$0.65", vendingMachine2.getDisplayText());
+	}
+
+
+	@Test
+	public void getDisplayText_WhentheDisplayIsCheckedAgainAfterSoldOutWasDisplayedAndThereIsNoMoneyInserted_DisplaysInsertCoin() {
 		// This vending machine is setup to have only one candy in inventory
 		VendingMachine vendingMachine2 = new VendingMachine();
 		HashMap<String, Product> lowInventory = new HashMap<>();
@@ -244,20 +285,20 @@ public class VendingMachineTest {
 
 		// Another customer tries to buy candy (when candy quantity is 0)
 		vendingMachine2.buy("candy");
+		vendingMachine2.getDisplayText();
 
-		assertEquals("SOLD OUT", vendingMachine2.getDisplayText());
 		assertEquals("INSERT COIN", vendingMachine2.getDisplayText());
 	}
 
 	@Test
-	public void insertCoins_whenInvalidCoinIsInserted_theMachineDisplaysInsertCoin() {
+	public void getDisplayText_WhenInvalidCoinIsInserted_DisplaysInsertCoin() {
 		Coin invalidCoin = new Coin(5, 1.0, 2.0, 200);
 		vendingMachine.insertCoin(invalidCoin);
 		assertEquals("INSERT COIN", vendingMachine.getDisplayText());
 	}
 
 	@Test
-	public void insertCoins_whenInvalidCoinIsInserted_theCurrentAmountIsZero() {
+	public void getCurrentAmount_WhenInvalidCoinIsInserted_CurrentAmountIsZero() {
 		Coin invalidCoin = new Coin(5, 1.0, 2.0, 200);
 		vendingMachine.insertCoin(invalidCoin);
 		assertEquals(0, vendingMachine.getCurrentAmount(), 0);
