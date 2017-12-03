@@ -1,14 +1,30 @@
+import java.util.Objects;
 
-public enum Coin {
-	NICKEL(.05), DIME(.10), QUARTER(.25), PENNY(.01);
+public class Coin {
 
-	double amount;
+	private double weight;
+	private double diameter;
+	private double thickness;
+	private int reeds;
 
-	Coin(double amount) {
-		this.amount = amount;
+	public Coin(double weight, double diameter, double thickness, int reeds) {
+		this.weight = weight;
+		this.diameter = diameter;
+		this.thickness = thickness;
+		this.reeds = reeds;
 	}
 
-	public double getAmount() {
-		return amount;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null)
+			return false;
+		if (getClass() != o.getClass())
+			return false;
+		Coin coin = (Coin) o;
+
+		return Objects.equals(weight, coin.weight) && Objects.equals(diameter, coin.diameter)
+				&& Objects.equals(thickness, coin.thickness) && Objects.equals(reeds, coin.reeds);
 	}
 }

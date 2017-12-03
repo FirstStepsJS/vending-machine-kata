@@ -5,7 +5,14 @@ public class VendingMachine {
 	private double coinReturn;
 	private Display display;
 	private double selectedItemPrice;
-	HashMap<String, Product> inventory;
+	private HashMap<String, Product> inventory;
+
+	// Coin specifications obtained from
+	// https://www.usmint.gov/learn/coin-and-medal-programs/coin-specifications
+	private final Coin NICKEL = new Coin(5.0, 0.750, 1.52, 0);
+	private final Coin DIME = new Coin(2.268, 0.705, 1.35, 118);
+	private final Coin QUARTER = new Coin(5.670, 0.955, 1.75, 119);
+	private final Coin PENNY = new Coin(2.5, 0.750, 1.52, 0);
 
 	public VendingMachine() {
 		currentAmount = 0;
@@ -71,10 +78,13 @@ public class VendingMachine {
 	}
 
 	public void insertCoin(Coin coin) {
-		if (coin.equals(Coin.PENNY)) {
-			setCoinReturn(getCoinReturn() + coin.getAmount());
+		double coinValue = calculateCoinValue(coin);
+
+		// pennies are not accepted, so they're added to coin return
+		if (coinValue <= 0.01) {
+			setCoinReturn(getCoinReturn() + coinValue);
 		} else {
-			setCurrentAmount(getCurrentAmount() + coin.getAmount());
+			setCurrentAmount(getCurrentAmount() + coinValue);
 			setDisplay(Display.CURRENT_AMOUNT);
 		}
 	}
@@ -110,5 +120,21 @@ public class VendingMachine {
 	public void returnCoins() {
 		setCoinReturn(0);
 		setDisplay(Display.INSERT_COIN);
+	}
+
+	private double calculateCoinValue(Coin coin) {
+		double coinValue = 0;
+		if (coin.equals(NICKEL)) {
+			coinValue = 0.05;
+		} else if (coin.equals(DIME)) {
+			coinValue = 0.10;
+		} else if (coin.equals(QUARTER)) {
+			coinValue = 0.25;
+		} else if (coin.equals(PENNY)) {
+			coinValue = 0.01;
+		} else {
+			coinValue = 0;
+		}
+		return coinValue;
 	}
 }
