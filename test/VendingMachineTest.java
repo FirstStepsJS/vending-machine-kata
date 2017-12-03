@@ -18,9 +18,9 @@ public class VendingMachineTest {
 
 		// Setting the vending machine inventory to the specified products
 		HashMap<String, Product> inventory = new HashMap<>();
-		inventory.put("cola", new Product("cola", 1.00));
-		inventory.put("chips", new Product("chips", .50));
-		inventory.put("candy", new Product("candy", .65));
+		inventory.put("cola", new Product("cola", 1.00, 100));
+		inventory.put("chips", new Product("chips", .50, 10));
+		inventory.put("candy", new Product("candy", .65, 5));
 		vendingMachine.setInventory(inventory);
 	}
 
@@ -199,5 +199,53 @@ public class VendingMachineTest {
 		vendingMachine.insertCoin(QUARTER);
 
 		assertEquals(0.52, vendingMachine.returnCoins(), 0);
+	}
+
+	@Test
+	public void buy_whenProductSelectedIsOutOfStockAndThereIsMoneyInserted_theMachineDisplaysAmountRemaining() {
+		// This vending machine is setup to have only one candy in inventory
+		VendingMachine vendingMachine2 = new VendingMachine();
+		HashMap<String, Product> lowInventory = new HashMap<>();
+		lowInventory.put("candy", new Product("candy", .65, 1));
+		vendingMachine2.setInventory(lowInventory);
+
+		// A customer buys the only candy in inventory
+		vendingMachine2.insertCoin(QUARTER);
+		vendingMachine2.insertCoin(QUARTER);
+		vendingMachine2.insertCoin(DIME);
+		vendingMachine2.insertCoin(NICKEL);
+		vendingMachine2.buy("candy");
+
+		// Another customer tries to buy candy (when candy quantity is 0)
+		vendingMachine2.insertCoin(QUARTER);
+		vendingMachine2.insertCoin(QUARTER);
+		vendingMachine2.insertCoin(DIME);
+		vendingMachine2.insertCoin(NICKEL);
+		vendingMachine2.buy("candy");
+
+		assertEquals("SOLD OUT", vendingMachine2.getDisplayText());
+		assertEquals("$0.65", vendingMachine2.getDisplayText());
+	}
+
+	@Test
+	public void buy_whenProductSelectedIsOutOfStockAndThereIsNoMoneyInserted_theMachineDisplaysInsertCoin() {
+		// This vending machine is setup to have only one candy in inventory
+		VendingMachine vendingMachine2 = new VendingMachine();
+		HashMap<String, Product> lowInventory = new HashMap<>();
+		lowInventory.put("candy", new Product("candy", .65, 1));
+		vendingMachine2.setInventory(lowInventory);
+
+		// A customer buys the only candy in inventory
+		vendingMachine2.insertCoin(QUARTER);
+		vendingMachine2.insertCoin(QUARTER);
+		vendingMachine2.insertCoin(DIME);
+		vendingMachine2.insertCoin(NICKEL);
+		vendingMachine2.buy("candy");
+
+		// Another customer tries to buy candy (when candy quantity is 0)
+		vendingMachine2.buy("candy");
+
+		assertEquals("SOLD OUT", vendingMachine2.getDisplayText());
+		assertEquals("INSERT COIN", vendingMachine2.getDisplayText());
 	}
 }

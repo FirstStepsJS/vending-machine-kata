@@ -60,6 +60,7 @@ public class VendingMachine {
 
 	public String getDisplayText() {
 		String displayText = "";
+		Display newDisplay;
 
 		switch (getDisplay()) {
 		case INSERT_COIN:
@@ -73,9 +74,15 @@ public class VendingMachine {
 			setDisplay(Display.INSERT_COIN);
 			break;
 		case PRICE:
-			Display newDisplay = currentAmount > 0 ? Display.CURRENT_AMOUNT : Display.INSERT_COIN;
+			newDisplay = currentAmount > 0 ? Display.CURRENT_AMOUNT : Display.INSERT_COIN;
 			setDisplay(newDisplay);
 			displayText = String.format("PRICE: $%.2f", getSelectedItemPrice());
+			break;
+		case SOLD_OUT:
+			newDisplay = currentAmount > 0 ? Display.CURRENT_AMOUNT : Display.INSERT_COIN;
+			setDisplay(newDisplay);
+			displayText = "SOLD OUT";
+			break;
 		}
 		return displayText;
 	}
@@ -103,18 +110,32 @@ public class VendingMachine {
 
 		if (product != null) {
 			double price = product.getPrice();
-			if (amount < price) {
-				setDisplay(Display.PRICE);
-				setSelectedItemPrice(product.getPrice());
-			} else if (amount > price) {
-				setDisplay(Display.THANK_YOU);
-				setCoinReturn(getCoinReturn() + (amount - price));
-				setCurrentAmount(0);
+			double quantity = product.getQuantity();
+			if (quantity == 0) {
+				setDisplay(Display.SOLD_OUT);
 			} else {
-				setDisplay(Display.THANK_YOU);
-				setCurrentAmount(0);
+				if (amount < price) {
+					setSelectedItemPrice(product.getPrice());
+					setDisplay(Display.PRICE);
+				} else if (amount > price) {
+					decreaseInventory(product);
+					setCoinReturn(getCoinReturn() + (amount - price));
+					setCurrentAmount(0);
+					setDisplay(Display.THANK_YOU);
+
+				} else {
+					decreaseInventory(product);
+					setCurrentAmount(0);
+					setDisplay(Display.THANK_YOU);
+				}
+
 			}
 		}
+	}
+
+	private void decreaseInventory(Product product) {
+		product.setQuantity(product.getQuantity() - 1);
+		inventory.put(product.getName(), product);
 	}
 
 	private Product find(String productName) {
