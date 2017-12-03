@@ -42,7 +42,7 @@ public class VendingMachine {
 		return coinReturn;
 	}
 
-	void setCoinReturn(double coinReturn) {
+	private void setCoinReturn(double coinReturn) {
 		this.coinReturn = coinReturn;
 	}
 
@@ -108,7 +108,7 @@ public class VendingMachine {
 				setSelectedItemPrice(product.getPrice());
 			} else if (amount > price) {
 				setDisplay(Display.THANK_YOU);
-				setCoinReturn(amount - price);
+				setCoinReturn(getCoinReturn() + (amount - price));
 				setCurrentAmount(0);
 			} else {
 				setDisplay(Display.THANK_YOU);
